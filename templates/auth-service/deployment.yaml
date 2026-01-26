@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "handshake.auth" . }}
+  labels: {{ include "handshake.auth.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  replicas: {{ .Values.authService.replicas }}
+  selector:
+    matchLabels: {{ include "handshake.auth.labels" . | nindent 6 }}
+  template:
+    labels: {{ include "handshake.auth.labels" . | nindent 6 }}
+    spec:
+      containers:
+        - name: auth-service
+          image: {{ .Values.authService.image.repository }}:{{ .Values.authService.image.tag }}
+          ports:
+            - containerPort: 8001
+          envFrom:
+            - secretKeyRef:
+                name: {{ .Values.authService.secretName }}

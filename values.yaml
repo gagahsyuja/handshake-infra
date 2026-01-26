@@ -1,0 +1,8 @@
+authService:
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/auth-service
+    tag: latest
+  secretName: handshake-auth-service
+  database:
+    secretName: handshake-auth-service-db

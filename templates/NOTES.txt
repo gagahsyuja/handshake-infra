@@ -1,0 +1,2 @@
+Please wait patiently for Handshake deployment to complete.
+Run `kubectl get all --namespace handshake` to get each resource status.
