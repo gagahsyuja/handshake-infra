@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ template "handshake.auth" . }}
+  labels: {{ include "handshake.auth.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ template "handshake.auth.host" . }}
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ template "handshake.auth" . }}
+                port:
+                  number: {{ template "handshake.auth.port" . }}

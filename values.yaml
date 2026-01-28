@@ -1,4 +1,5 @@
 authService:
+  host: "handshake-auth.sofine.my.id"
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/auth-service
