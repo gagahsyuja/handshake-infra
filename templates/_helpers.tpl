@@ -100,3 +100,29 @@ app: {{ template "handshake.name" . }}
 role: backend
 service: email
 {{- end }}
+
+{{- define "handshake.auth.db" -}}
+{{- printf "%s-auth-db" (include "handshake.name" .) }}
+{{- end }}
+
+{{- define "handshake.auth.db.labels" -}}
+app: {{ template "handshake.name" . }}
+role: db
+service: auth
+{{- end }}
+
+{{- define "handshake.auth.db.port" -}}
+5432
+{{- end }}
+
+{{- define "handshake.auth.db.secretName" -}}
+{{ .Values.authService.database.secretName | default "handshake-auth-db" }}
+{{- end }}
+
+{{- define "handshake.auth.db.storage.accessModes" -}}
+{{ .Values.authService.database.storage.accessModes | default (list "ReadWriteOnce") }}
+{{- end }}
+
+{{- define "handshake.auth.db.storage.className" -}}
+{{ .Values.authService.database.storage.className | default "do-block-storage" }}
+{{- end }}

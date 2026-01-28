@@ -2,7 +2,15 @@ authService:
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/auth-service
-    tag: 575fdf2
+    tag: b43c5fd
   secretName: handshake-auth-service
   database:
-    secretName: handshake-auth-service-db
+    replicas: 1
+    image:
+      repository: postgres
+      tag: alpine3.23
+    secretName: handshake-auth-db
+    storage:
+      className: "do-block-storage-retain"
+      accessModes:
+        - ReadWriteMany
