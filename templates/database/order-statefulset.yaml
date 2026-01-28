@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "handshake.order.db" . }}
+  labels: {{ include "handshake.order.db.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  serviceName: postgres
+  replicas: {{ .Values.orderService.database.replicas }}
+  selector:
+    matchLabels: {{ include "handshake.order.db.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{ include "handshake.order.db.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: order-service
+          image: {{ .Values.orderService.database.image.repository }}:{{ .Values.orderService.database.image.tag }}
+          ports:
+            - containerPort: {{ include "handshake.order.db.port" . }}
+          envFrom:
+            - secretRef:
+                name: {{ include "handshake.order.db.secretName" . }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ include "handshake.order.db.port" . }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: pg-data
+              mountPath: /var/lib/postgresql
+  volumeClaimTemplates:
+    - metadata:
+        name: pg-data
+      spec:
+        accessModes: {{ include "handshake.order.db.storage.accessModes" . }}
+        storageClassName: {{ include "handshake.order.db.storage.className" . }}
+        resources:
+          requests:
+            storage: 1Gi

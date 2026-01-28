@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "handshake.product.db" . }}
+  labels: {{ include "handshake.product.db.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  serviceName: postgres
+  replicas: {{ .Values.productService.database.replicas }}
+  selector:
+    matchLabels: {{ include "handshake.product.db.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{ include "handshake.product.db.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: product-service
+          image: {{ .Values.productService.database.image.repository }}:{{ .Values.productService.database.image.tag }}
+          ports:
+            - containerPort: {{ include "handshake.product.db.port" . }}
+          envFrom:
+            - secretRef:
+                name: {{ include "handshake.product.db.secretName" . }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ include "handshake.product.db.port" . }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: pg-data
+              mountPath: /var/lib/postgresql
+  volumeClaimTemplates:
+    - metadata:
+        name: pg-data
+      spec:
+        accessModes: {{ include "handshake.product.db.storage.accessModes" . }}
+        storageClassName: {{ include "handshake.product.db.storage.className" . }}
+        resources:
+          requests:
+            storage: 1Gi

@@ -158,3 +158,55 @@ service: auth
 {{- define "handshake.auth.db.storage.className" -}}
 {{ .Values.authService.database.storage.className | default "do-block-storage" }}
 {{- end }}
+
+{{- define "handshake.product.db" -}}
+{{- printf "%s-product-db" (include "handshake.name" .) }}
+{{- end }}
+
+{{- define "handshake.product.db.labels" -}}
+app: {{ template "handshake.name" . }}
+role: db
+service: product
+{{- end }}
+
+{{- define "handshake.product.db.port" -}}
+5432
+{{- end }}
+
+{{- define "handshake.product.db.secretName" -}}
+{{ .Values.productService.database.secretName | default "handshake-product-db" }}
+{{- end }}
+
+{{- define "handshake.product.db.storage.accessModes" -}}
+{{ .Values.productService.database.storage.accessModes | default (list "ReadWriteOnce") }}
+{{- end }}
+
+{{- define "handshake.product.db.storage.className" -}}
+{{ .Values.productService.database.storage.className | default "do-block-storage" }}
+{{- end }}
+
+{{- define "handshake.order.db" -}}
+{{- printf "%s-order-db" (include "handshake.name" .) }}
+{{- end }}
+
+{{- define "handshake.order.db.labels" -}}
+app: {{ template "handshake.name" . }}
+role: db
+service: order
+{{- end }}
+
+{{- define "handshake.order.db.port" -}}
+5432
+{{- end }}
+
+{{- define "handshake.order.db.secretName" -}}
+{{ .Values.orderService.database.secretName | default "handshake-order-db" }}
+{{- end }}
+
+{{- define "handshake.order.db.storage.accessModes" -}}
+{{ .Values.orderService.database.storage.accessModes | default (list "ReadWriteOnce") }}
+{{- end }}
+
+{{- define "handshake.order.db.storage.className" -}}
+{{ .Values.orderService.database.storage.className | default "do-block-storage" }}
+{{- end }}

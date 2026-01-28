@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "handshake.product.db" . }}
+  labels: {{ include "handshake.product.db.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  type: ClusterIP
+  selector: {{ include "handshake.product.db.labels" . | nindent 4 }}
+  ports:
+    - protocol: TCP
+      port: {{ include "handshake.product.db.port" . | nindent 8 }}
+      targetPort: {{ include "handshake.product.db.port" . | nindent 8 }}

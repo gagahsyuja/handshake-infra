@@ -33,3 +33,15 @@ productService:
       className: "do-block-storage-retain"
       accessModes:
         - ReadWriteOnce
+
+orderService:
+  database:
+    replicas: 1
+    image:
+      repository: postgres
+      tag: alpine3.23
+    secretName: handshake-order-db
+    storage:
+      className: "do-block-storage-retain"
+      accessModes:
+        - ReadWriteOnce
