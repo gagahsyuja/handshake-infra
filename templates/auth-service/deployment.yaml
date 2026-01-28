@@ -16,19 +16,19 @@ spec:
         - name: auth-service
           image: {{ .Values.authService.image.repository }}:{{ .Values.authService.image.tag }}
           ports:
-            - containerPort: 8001
+            - containerPort: {{ template "handshake.auth.port" . }}
           envFrom:
             - secretRef:
                 name: {{ .Values.authService.secretName }}
           livenessProbe:
             httpGet:
               path: /live
-              port: 8001
+              port: {{ template "handshake.auth.port" . }}
             initialDelaySeconds: 5
             periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /ready
-              port: 8001
+              port: {{ template "handshake.auth.port" . }}
             initialDelaySeconds: 5
             periodSeconds: 5

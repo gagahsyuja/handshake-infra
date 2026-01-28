@@ -15,3 +15,21 @@ authService:
       className: "do-block-storage-retain"
       accessModes:
         - ReadWriteOnce
+
+productService:
+  host: "handshake-product.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/product-service
+    tag: b43c5fd
+  secretName: handshake-product-service
+  database:
+    replicas: 1
+    image:
+      repository: postgres
+      tag: alpine3.23
+    secretName: handshake-product-db
+    storage:
+      className: "do-block-storage-retain"
+      accessModes:
+        - ReadWriteOnce

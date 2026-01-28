@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "handshake.product" . }}
+  labels: {{ include "handshake.product.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  replicas: {{ .Values.productService.replicas }}
+  selector:
+    matchLabels: {{ include "handshake.product.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{ include "handshake.product.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: product-service
+          image: {{ .Values.productService.image.repository }}:{{ .Values.productService.image.tag }}
+          ports:
+            - containerPort: {{ template "handshake.product.port" . }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.productService.secretName }}
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: {{ template "handshake.product.port" . }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: {{ template "handshake.product.port" . }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
