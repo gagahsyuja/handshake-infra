@@ -20,3 +20,15 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.authService.secretName }}
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 8001
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8001
+            initialDelaySeconds: 5
+            periodSeconds: 5
