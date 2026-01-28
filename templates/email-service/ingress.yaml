@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ template "handshake.email" . }}
+  labels: {{ include "handshake.email.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ template "handshake.email.host" . }}
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ template "handshake.email" . }}
+                port:
+                  number: {{ template "handshake.email.port" . }}

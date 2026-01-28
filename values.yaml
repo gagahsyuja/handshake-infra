@@ -51,3 +51,11 @@ orderService:
       className: "do-block-storage-retain"
       accessModes:
         - ReadWriteOnce
+
+emailService:
+  host: "handshake-email.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/email-service
+    tag: 32212d8
+  secretName: handshake-email-service

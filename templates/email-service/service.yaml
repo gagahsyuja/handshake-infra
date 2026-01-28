@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "handshake.email" . }}
+  labels: {{ include "handshake.email.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  type: ClusterIP
+  selector: {{ include "handshake.email.labels" . | nindent 4 }}
+  ports:
+    - protocol: TCP
+      port: {{ template "handshake.email.port" . }}
+      targetPort: {{ template "handshake.email.port" . }}
