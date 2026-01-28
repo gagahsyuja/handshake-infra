@@ -9,5 +9,5 @@ spec:
   selector: {{ include "handshake.auth.labels" . | nindent 4 }}
   ports:
     - protocol: TCP
-      port: 8001
-      targetPort: 8001
+      port: {{ template "handshake.auth.port" . }}
+      targetPort: {{ template "handshake.auth.port" . }}

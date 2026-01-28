@@ -101,6 +101,38 @@ role: backend
 service: email
 {{- end }}
 
+{{- define "handshake.auth.port" -}}
+8001
+{{- end }}
+
+{{- define "handshake.product.port" -}}
+8002
+{{- end }}
+
+{{- define "handshake.order.port" -}}
+8003
+{{- end }}
+
+{{- define "handshake.email.port" -}}
+8004
+{{- end }}
+
+{{- define "handshake.auth.host" -}}
+{{ .Values.authService.host | default "auth.sofine.my.id" }}
+{{- end}}
+
+{{- define "handshake.product.host" -}}
+{{ .Values.productService.host | default "product.sofine.my.id" }}
+{{- end}}
+
+{{- define "handshake.order.host" -}}
+{{ .Values.orderService.host | default "order.sofine.my.id" }}
+{{- end}}
+
+{{- define "handshake.email.host" -}}
+{{ .Values.emailService.host | default "email.sofine.my.id" }}
+{{- end}}
+
 {{- define "handshake.auth.db" -}}
 {{- printf "%s-auth-db" (include "handshake.name" .) }}
 {{- end }}
