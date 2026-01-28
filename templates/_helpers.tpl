@@ -77,6 +77,10 @@ Create the name of the service account to use
 {{- printf "%s-email" (include "handshake.name" .) }}
 {{- end }}
 
+{{- define "handshake.frontend" -}}
+{{- printf "%s-frontend" (include "handshake.name" .) }}
+{{- end }}
+
 {{- define "handshake.auth.labels" -}}
 app: {{ template "handshake.name" . }}
 role: backend
@@ -101,6 +105,11 @@ role: backend
 service: email
 {{- end }}
 
+{{- define "handshake.frontend.labels" -}}
+app: {{ template "handshake.name" . }}
+role: frontend
+{{- end }}
+
 {{- define "handshake.auth.port" -}}
 8001
 {{- end }}
@@ -117,6 +126,10 @@ service: email
 8004
 {{- end }}
 
+{{- define "handshake.frontend.port" -}}
+3000
+{{- end }}
+
 {{- define "handshake.auth.host" -}}
 {{ .Values.authService.host | default "auth.sofine.my.id" }}
 {{- end}}
@@ -131,6 +144,10 @@ service: email
 
 {{- define "handshake.email.host" -}}
 {{ .Values.emailService.host | default "email.sofine.my.id" }}
+{{- end}}
+
+{{- define "handshake.frontend.host" -}}
+{{ .Values.frontend.host | default "handshake.sofine.my.id" }}
 {{- end}}
 
 {{- define "handshake.auth.db" -}}
@@ -209,4 +226,8 @@ service: order
 
 {{- define "handshake.order.db.storage.className" -}}
 {{ .Values.orderService.database.storage.className | default "do-block-storage" }}
+{{- end }}
+
+{{- define "handshake.frontend.configName" -}}
+{{ .Values.frontend.configName | default "handshake-frontend" }}
 {{- end }}

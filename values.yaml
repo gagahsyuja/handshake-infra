@@ -59,3 +59,11 @@ emailService:
     repository: registry.sofine.my.id/handshake/email-service
     tag: 32212d8
   secretName: handshake-email-service
+
+frontend:
+  host: "handshake.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/frontend
+    tag: 32212d8
+  configName: handshake-frontend

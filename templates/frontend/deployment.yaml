@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "handshake.frontend" . }}
+  labels: {{ include "handshake.frontend.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels: {{ include "handshake.frontend.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{ include "handshake.frontend.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: frontend
+          image: {{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}
+          ports:
+            - containerPort: {{ template "handshake.frontend.port" . }}
+          envFrom:
+            - configMapRef:
+                name: {{ template "handshake.frontend.configName" . }}
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: {{ template "handshake.frontend.port" . }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: {{ template "handshake.frontend.port" . }}
+            initialDelaySeconds: 5
+            periodSeconds: 5

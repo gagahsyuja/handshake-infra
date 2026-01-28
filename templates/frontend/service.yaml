@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "handshake.frontend" . }}
+  labels: {{ include "handshake.frontend.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  type: ClusterIP
+  selector: {{ include "handshake.frontend.labels" . | nindent 4 }}
+  ports:
+    - protocol: TCP
+      port: {{ template "handshake.frontend.port" . }}
+      targetPort: {{ template "handshake.frontend.port" . }}
