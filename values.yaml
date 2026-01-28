@@ -13,4 +13,4 @@ authService:
     storage:
       className: "do-block-storage-retain"
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
