@@ -17,13 +17,13 @@ spec:
         - name: auth-service
           image: {{ .Values.authService.database.image.repository }}:{{ .Values.authService.database.image.tag }}
           ports:
-            - containerPort: {{ include "handshake.auth.db.port" . | quote }}
+            - containerPort: {{ include "handshake.auth.db.port" . }}
           envFrom:
             - secretRef:
                 name: {{ include "handshake.auth.db.secretName" . }}
           livenessProbe:
             tcpSocket:
-              port: {{ include "handshake.auth.db.port" . | quote }}
+              port: {{ include "handshake.auth.db.port" . }}
             initialDelaySeconds: 5
             periodSeconds: 5
           volumeMounts:
