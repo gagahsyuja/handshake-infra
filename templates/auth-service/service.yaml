@@ -6,8 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace | quote }}
 spec:
   type: ClusterIP
-  selector:
-    matchLabels: {{ include "handshake.auth.labels" . | nindent 6 }}
+  selector: {{ include "handshake.auth.labels" . | nindent 4 }}
   ports:
     - protocol: TCP
       port: 8001
