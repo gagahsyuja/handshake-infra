@@ -35,6 +35,12 @@ productService:
         - ReadWriteOnce
 
 orderService:
+  host: "handshake-order.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/order-service
+    tag: b43c5fd
+  secretName: handshake-order-service
   database:
     replicas: 1
     image:
