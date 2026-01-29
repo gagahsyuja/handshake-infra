@@ -4,6 +4,7 @@ metadata:
   name: {{ template "handshake.product" . }}
   labels: {{ include "handshake.product.labels" . | nindent 4 }}
   namespace: {{ .Release.Namespace | quote }}
+  annotations: {{ include "handshake.letsencrypt.annotations" . | nindent 4 }}
 spec:
   ingressClassName: nginx
   rules:
@@ -17,3 +18,7 @@ spec:
                 name: {{ template "handshake.product" . }}
                 port:
                   number: {{ template "handshake.product.port" . }}
+  tls:
+    - hosts:
+        - {{ template "handshake.product.host" . }}
+      secretName: {{ template "handshake.product" . }}-tls

@@ -150,6 +150,10 @@ role: frontend
 {{ .Values.frontend.host | default "handshake.sofine.my.id" }}
 {{- end}}
 
+{{- define "handshake.letsencrypt.annotations" -}}
+cert-manager.io/cluster-issuer: "letsencrypt-nginx-cert"
+{{- end }}
+
 {{- define "handshake.auth.db" -}}
 {{- printf "%s-auth-db" (include "handshake.name" .) }}
 {{- end }}
