@@ -3,7 +3,7 @@ authService:
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/auth-service
-    tag: b43c5fd
+    tag: 0ef0b73
   secretName: handshake-auth-service
   database:
     replicas: 1
@@ -57,7 +57,7 @@ emailService:
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/email-service
-    tag: 32212d8
+    tag: 0ef0b73
   secretName: handshake-email-service
 
 frontend:
