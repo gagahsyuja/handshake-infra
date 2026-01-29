@@ -4,6 +4,6 @@ metadata:
   name: {{ template "handshake.frontend.configName" . }}
   namespace: {{ .Release.Namespace | quote }}
 data:
-  AUTH_SERVICE: http://handshake-auth.sofine.my.id
-  PRODUCT_SERVICE: http://handshake-product.sofine.my.id
-  ORDER_SERVICE: http://handshake-order.sofine.my.id
+  AUTH_SERVICE: https://handshake-auth.sofine.my.id
+  PRODUCT_SERVICE: https://handshake-product.sofine.my.id
+  ORDER_SERVICE: https://handshake-order.sofine.my.id
