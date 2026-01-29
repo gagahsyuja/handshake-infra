@@ -3,7 +3,7 @@ authService:
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/auth-service
-    tag: 42a2a5b
+    tag: e28b09f
   secretName: handshake-auth-service
   database:
     replicas: 1
@@ -21,7 +21,7 @@ productService:
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/product-service
-    tag: b43c5fd
+    tag: e28b09f
   secretName: handshake-product-service
   database:
     replicas: 1
@@ -39,7 +39,7 @@ orderService:
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/order-service
-    tag: b43c5fd
+    tag: e28b09f
   secretName: handshake-order-service
   database:
     replicas: 1
