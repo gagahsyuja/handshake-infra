@@ -65,5 +65,5 @@ frontend:
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/frontend
-    tag: 32212d8
+    tag: 89685a3
   configName: handshake-frontend
