@@ -3,7 +3,7 @@ authService:
   replicas: 1
   image:
     repository: registry.sofine.my.id/handshake/auth-service
-    tag: e28b09f
+    tag: 4472dab
   secretName: handshake-auth-service
   database:
     replicas: 1
@@ -15,7 +15,6 @@ authService:
       className: "do-block-storage-retain"
       accessModes:
         - ReadWriteOnce
-
 productService:
   host: "handshake-product.sofine.my.id"
   replicas: 1
@@ -33,7 +32,6 @@ productService:
       className: "do-block-storage-retain"
       accessModes:
         - ReadWriteOnce
-
 orderService:
   host: "handshake-order.sofine.my.id"
   replicas: 1
@@ -51,7 +49,6 @@ orderService:
       className: "do-block-storage-retain"
       accessModes:
         - ReadWriteOnce
-
 emailService:
   host: "handshake-email.sofine.my.id"
   replicas: 1
@@ -59,7 +56,6 @@ emailService:
     repository: registry.sofine.my.id/handshake/email-service
     tag: 42a2a5b
   secretName: handshake-email-service
-
 frontend:
   host: "handshake.sofine.my.id"
   replicas: 1
