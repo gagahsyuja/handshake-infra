@@ -1,0 +1,69 @@
+authService:
+  host: "handshake-auth.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/auth-service
+    tag: e28b09f
+  secretName: handshake-auth-service
+  database:
+    replicas: 1
+    image:
+      repository: postgres
+      tag: alpine3.23
+    secretName: handshake-auth-db
+    storage:
+      className: "do-block-storage-retain"
+      accessModes:
+        - ReadWriteOnce
+
+productService:
+  host: "handshake-product.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/product-service
+    tag: e28b09f
+  secretName: handshake-product-service
+  database:
+    replicas: 1
+    image:
+      repository: postgres
+      tag: alpine3.23
+    secretName: handshake-product-db
+    storage:
+      className: "do-block-storage-retain"
+      accessModes:
+        - ReadWriteOnce
+
+orderService:
+  host: "handshake-order.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/order-service
+    tag: e28b09f
+  secretName: handshake-order-service
+  database:
+    replicas: 1
+    image:
+      repository: postgres
+      tag: alpine3.23
+    secretName: handshake-order-db
+    storage:
+      className: "do-block-storage-retain"
+      accessModes:
+        - ReadWriteOnce
+
+emailService:
+  host: "handshake-email.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/email-service
+    tag: 42a2a5b
+  secretName: handshake-email-service
+
+frontend:
+  host: "handshake.sofine.my.id"
+  replicas: 1
+  image:
+    repository: registry.sofine.my.id/handshake/frontend
+    tag: 3531a83
+  configName: handshake-frontend

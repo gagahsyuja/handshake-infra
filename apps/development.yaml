@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: handshake-development
+  labels:
+    app: handshake
+    environment: development
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gagahsyuja/handshake-infra.git
+    targetRevision: HEAD
+    path: charts/development
+    helm:
+      valueFiles:
+        - /values/values-development.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: handshake-development
+  syncPolicy:
+    automated:
+      enabled: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
