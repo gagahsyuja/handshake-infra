@@ -28,11 +28,11 @@ spec:
           image: {{ .Values.authService.image.repository }}:{{ .Values.authService.image.tag }}
           ports:
             - containerPort: {{ template "handshake.auth.port" . }}
-          command: [ "sh", "-c" ]
+          command: [ "bash", "-c" ]
           args:
             - |
               source /vault/secrets/auth
-              exec handshake_auth"
+              exec handshake_auth
           # envFrom:
           #   - secretRef:
           #       name: {{ .Values.authService.secretName }}
