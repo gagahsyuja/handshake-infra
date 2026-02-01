@@ -11,15 +11,31 @@ spec:
   template:
     metadata:
       labels: {{ include "handshake.auth.labels" . | nindent 8 }}
+      annotations:
+        vault.hashicorp.com/role: {{ .Release.Namespace | quote }}
+        vault.hashicorp.com/agent-inject: true
+        vault.hashicorp.com/agent-inject-secret-auth: kv/auth-service-dev
+        vault.hashicorp.com/agent-inject-template-auth: |
+          {{- with secret 'kv/auth-service-dev' -}}
+            {{ range $key, $value := .Data }}
+              export {{ $key }}="{{ $value }}"
+            {{ end }}
+          {{- end }}
     spec:
+      serviceAccountName: {{ .Release.Namespace | quote }}
       containers:
         - name: auth-service
           image: {{ .Values.authService.image.repository }}:{{ .Values.authService.image.tag }}
           ports:
             - containerPort: {{ template "handshake.auth.port" . }}
-          envFrom:
-            - secretRef:
-                name: {{ .Values.authService.secretName }}
+          command: [ "sh", "-c" ]
+          args:
+            - |
+              source /vault/secrets/auth
+              exec handshake_auth"
+          # envFrom:
+          #   - secretRef:
+          #       name: {{ .Values.authService.secretName }}
           livenessProbe:
             httpGet:
               path: /live
