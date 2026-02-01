@@ -16,11 +16,11 @@ spec:
         vault.hashicorp.com/agent-inject: true
         vault.hashicorp.com/agent-inject-secret-auth: kv/auth-service-dev
         vault.hashicorp.com/agent-inject-template-auth: |
-          {{- with secret 'kv/auth-service-dev' -}}
-            {{ range $key, $value := .Data }}
-              export {{ $key }}="{{ $value }}"
-            {{ end }}
-          {{- end }}
+          {{`{{- with secret 'kv/auth-service-dev' -}}`}}
+            {{`{{ range $key, $value := .Data }}`}}
+              export {{`{{ $key }}="{{ $value }}"`}}
+            {{`{{ end }}`}}
+          {{`{{- end }}`}}
     spec:
       serviceAccountName: {{ .Release.Namespace | quote }}
       containers:
