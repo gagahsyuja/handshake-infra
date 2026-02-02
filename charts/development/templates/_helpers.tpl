@@ -264,6 +264,18 @@ vault.hashicorp.com/agent-inject-secret-email: "secret/data/handshake/developmen
 vault.hashicorp.com/agent-inject-secret-frontend: "secret/data/handshake/development/frontend"
 {{- end }}
 
+{{- define "handshake.auth.db.vault.autoInject.secret" -}}
+vault.hashicorp.com/agent-inject-secret-auth-db: "secret/data/handshake/development/databases/auth-service-db"
+{{- end }}
+
+{{- define "handshake.product.db.vault.autoInject.secret" -}}
+vault.hashicorp.com/agent-inject-secret-product-db: "secret/data/handshake/development/databases/product-service-db"
+{{- end }}
+
+{{- define "handshake.order.db.vault.autoInject.secret" -}}
+vault.hashicorp.com/agent-inject-secret-order-db: "secret/data/handshake/development/databases/order-service-db"
+{{- end }}
+
 {{- define "handshake.auth.vault.autoInject.template" -}}
 vault.hashicorp.com/agent-inject-template-auth: |
   {{`{{- with secret "secret/data/handshake/development/auth-service" -}}`}}
@@ -309,6 +321,45 @@ vault.hashicorp.com/agent-inject-template-frontend: |
   {{`{{- end }}`}}
 {{- end }}
 
+{{- define "handshake.auth.db.vault.autoInject.template" -}}
+vault.hashicorp.com/agent-inject-template-auth-db: |
+  {{`{{- with secret "secret/data/handshake/development/databases/auth-service-db" -}}`}}
+    {{`{{ range $key, $value := .Data.data }}`}}
+      export {{`{{ $key }}="{{ $value }}"`}}
+    {{`{{ end }}`}}
+  {{`{{- end }}`}}
+{{- end }}
+
+{{- define "handshake.product.db.vault.autoInject.template" -}}
+vault.hashicorp.com/agent-inject-template-product-db: |
+  {{`{{- with secret "secret/data/handshake/development/databases/product-service-db" -}}`}}
+    {{`{{ range $key, $value := .Data.data }}`}}
+      export {{`{{ $key }}="{{ $value }}"`}}
+    {{`{{ end }}`}}
+  {{`{{- end }}`}}
+{{- end }}
+
+{{- define "handshake.order.db.vault.autoInject.template" -}}
+vault.hashicorp.com/agent-inject-template-order-db: |
+  {{`{{- with secret "secret/data/handshake/development/databases/order-service-db" -}}`}}
+    {{`{{ range $key, $value := .Data.data }}`}}
+      export {{`{{ $key }}="{{ $value }}"`}}
+    {{`{{ end }}`}}
+  {{`{{- end }}`}}
+{{- end }}
+
+{{- define "handshake.auth.db.vault.autoInject.command" -}}
+vault.hashicorp.com/agent-inject-command-auth-db: "source /vault/secrets/auth-db"
+{{- end }}
+
+{{- define "handshake.product.db.vault.autoInject.command" -}}
+vault.hashicorp.com/agent-inject-command-product-db: "source /vault/secrets/product-db"
+{{- end }}
+
+{{- define "handshake.order.db.vault.autoInject.command" -}}
+vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-db"
+{{- end }}
+
 {{- define "handshake.auth.vault.annotations" -}}
 {{ template "handshake.vault.role" . }}
 {{ template "handshake.vault.autoInject" . }}
@@ -342,4 +393,28 @@ vault.hashicorp.com/agent-inject-template-frontend: |
 {{ template "handshake.vault.autoInject" . }}
 {{ template "handshake.frontend.vault.autoInject.secret" . }}
 {{ template "handshake.frontend.vault.autoInject.template" . }}
+{{- end }}
+
+{{- define "handshake.auth.db.vault.annotations" -}}
+{{ template "handshake.vault.role" . }}
+{{ template "handshake.vault.autoInject" . }}
+{{ template "handshake.auth.db.vault.autoInject.secret" . }}
+{{ template "handshake.auth.db.vault.autoInject.template" . }}
+{{ template "handshake.auth.db.vault.autoInject.command" . }}
+{{- end }}
+
+{{- define "handshake.product.db.vault.annotations" -}}
+{{ template "handshake.vault.role" . }}
+{{ template "handshake.vault.autoInject" . }}
+{{ template "handshake.product.db.vault.autoInject.secret" . }}
+{{ template "handshake.product.db.vault.autoInject.template" . }}
+{{ template "handshake.product.db.vault.autoInject.command" . }}
+{{- end }}
+
+{{- define "handshake.order.db.vault.annotations" -}}
+{{ template "handshake.vault.role" . }}
+{{ template "handshake.vault.autoInject" . }}
+{{ template "handshake.order.db.vault.autoInject.secret" . }}
+{{ template "handshake.order.db.vault.autoInject.template" . }}
+{{ template "handshake.order.db.vault.autoInject.command" . }}
 {{- end }}
