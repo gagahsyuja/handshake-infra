@@ -12,15 +12,14 @@ spec:
   template:
     metadata:
       labels: {{ include "handshake.product.db.labels" . | nindent 8 }}
+      annotations: {{ include "handshake.product.db.vault.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ .Release.Namespace | quote }}
       containers:
         - name: product-service
           image: {{ .Values.productService.database.image.repository }}:{{ .Values.productService.database.image.tag }}
           ports:
             - containerPort: {{ include "handshake.product.db.port" . }}
-          envFrom:
-            - secretRef:
-                name: {{ include "handshake.product.db.secretName" . }}
           livenessProbe:
             tcpSocket:
               port: {{ include "handshake.product.db.port" . }}
