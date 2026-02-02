@@ -17,7 +17,7 @@ spec:
         vault.hashicorp.com/agent-inject-secret-auth: "secret/data/handshake/development/auth-service"
         vault.hashicorp.com/agent-inject-template-auth: |
           {{`{{- with secret "secret/data/handshake/development/auth-service" -}}`}}
-            {{`{{ range $key, $value := .Data }}`}}
+            {{`{{ range $key, $value := .Data.data }}`}}
               export {{`{{ $key }}="{{ $value }}"`}}
             {{`{{ end }}`}}
           {{`{{- end }}`}}
