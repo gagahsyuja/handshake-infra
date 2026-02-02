@@ -11,15 +11,19 @@ spec:
   template:
     metadata:
       labels: {{ include "handshake.product.labels" . | nindent 8 }}
+      annotations: {{ include "handshake.product.vault.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ .Release.Namespace | quote }}
       containers:
         - name: product-service
           image: {{ .Values.productService.image.repository }}:{{ .Values.productService.image.tag }}
           ports:
             - containerPort: {{ template "handshake.product.port" . }}
-          envFrom:
-            - secretRef:
-                name: {{ .Values.productService.secretName }}
+          command: [ "bash", "-c" ]
+          args:
+            - |
+              source /vault/secrets/product
+              exec handshake-product
           livenessProbe:
             httpGet:
               path: /live
