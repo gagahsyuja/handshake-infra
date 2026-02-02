@@ -11,15 +11,19 @@ spec:
   template:
     metadata:
       labels: {{ include "handshake.frontend.labels" . | nindent 8 }}
+      annotations: {{ include "handshake.frontend.vault.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ .Release.Namespace | quote }}
       containers:
         - name: frontend
           image: {{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}
           ports:
             - containerPort: {{ template "handshake.frontend.port" . }}
-          envFrom:
-            - configMapRef:
-                name: {{ template "handshake.frontend.configName" . }}
+          command: [ "bash", "-c" ]
+          args:
+            - |
+              source /vault/secrets/frontend
+              exec node /app/dist/server/entry.mjs
           livenessProbe:
             httpGet:
               path: /live
