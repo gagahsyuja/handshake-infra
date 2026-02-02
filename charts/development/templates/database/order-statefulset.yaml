@@ -12,15 +12,14 @@ spec:
   template:
     metadata:
       labels: {{ include "handshake.order.db.labels" . | nindent 8 }}
+      annotations: {{ include "handshake.order.db.vault.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ .Release.Namespace | quote }}
       containers:
         - name: order-service
           image: {{ .Values.orderService.database.image.repository }}:{{ .Values.orderService.database.image.tag }}
           ports:
             - containerPort: {{ include "handshake.order.db.port" . }}
-          envFrom:
-            - secretRef:
-                name: {{ include "handshake.order.db.secretName" . }}
           livenessProbe:
             tcpSocket:
               port: {{ include "handshake.order.db.port" . }}

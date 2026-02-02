@@ -240,31 +240,43 @@ service: order
 vault.hashicorp.com/role: {{ .Release.Namespace | quote }}
 {{- end }}
 
-{{- define "handshake.vault.autoInject" -}}
+{{- define "handshake.vault.agentInject" -}}
 vault.hashicorp.com/agent-inject: "true"
 {{- end }}
 
-{{- define "handshake.auth.vault.autoInject.secret" -}}
+{{- define "handshake.auth.vault.agentInject.secret" -}}
 vault.hashicorp.com/agent-inject-secret-auth: "secret/data/handshake/development/auth-service"
 {{- end }}
 
-{{- define "handshake.product.vault.autoInject.secret" -}}
+{{- define "handshake.product.vault.agentInject.secret" -}}
 vault.hashicorp.com/agent-inject-secret-product: "secret/data/handshake/development/product-service"
 {{- end }}
 
-{{- define "handshake.order.vault.autoInject.secret" -}}
+{{- define "handshake.order.vault.agentInject.secret" -}}
 vault.hashicorp.com/agent-inject-secret-order: "secret/data/handshake/development/order-service"
 {{- end }}
 
-{{- define "handshake.email.vault.autoInject.secret" -}}
+{{- define "handshake.email.vault.agentInject.secret" -}}
 vault.hashicorp.com/agent-inject-secret-email: "secret/data/handshake/development/email-service"
 {{- end }}
 
-{{- define "handshake.frontend.vault.autoInject.secret" -}}
+{{- define "handshake.frontend.vault.agentInject.secret" -}}
 vault.hashicorp.com/agent-inject-secret-frontend: "secret/data/handshake/development/frontend"
 {{- end }}
 
-{{- define "handshake.auth.vault.autoInject.template" -}}
+{{- define "handshake.auth.db.vault.agentInject.secret" -}}
+vault.hashicorp.com/agent-inject-secret-auth-db: "secret/data/handshake/development/databases/auth-service-db"
+{{- end }}
+
+{{- define "handshake.product.db.vault.agentInject.secret" -}}
+vault.hashicorp.com/agent-inject-secret-product-db: "secret/data/handshake/development/databases/product-service-db"
+{{- end }}
+
+{{- define "handshake.order.db.vault.agentInject.secret" -}}
+vault.hashicorp.com/agent-inject-secret-order-db: "secret/data/handshake/development/databases/order-service-db"
+{{- end }}
+
+{{- define "handshake.auth.vault.agentInject.template" -}}
 vault.hashicorp.com/agent-inject-template-auth: |
   {{`{{- with secret "secret/data/handshake/development/auth-service" -}}`}}
     {{`{{ range $key, $value := .Data.data }}`}}
@@ -273,7 +285,7 @@ vault.hashicorp.com/agent-inject-template-auth: |
   {{`{{- end }}`}}
 {{- end }}
 
-{{- define "handshake.product.vault.autoInject.template" -}}
+{{- define "handshake.product.vault.agentInject.template" -}}
 vault.hashicorp.com/agent-inject-template-product: |
   {{`{{- with secret "secret/data/handshake/development/product-service" -}}`}}
     {{`{{ range $key, $value := .Data.data }}`}}
@@ -282,7 +294,7 @@ vault.hashicorp.com/agent-inject-template-product: |
   {{`{{- end }}`}}
 {{- end }}
 
-{{- define "handshake.order.vault.autoInject.template" -}}
+{{- define "handshake.order.vault.agentInject.template" -}}
 vault.hashicorp.com/agent-inject-template-order: |
   {{`{{- with secret "secret/data/handshake/development/order-service" -}}`}}
     {{`{{ range $key, $value := .Data.data }}`}}
@@ -291,7 +303,7 @@ vault.hashicorp.com/agent-inject-template-order: |
   {{`{{- end }}`}}
 {{- end }}
 
-{{- define "handshake.email.vault.autoInject.template" -}}
+{{- define "handshake.email.vault.agentInject.template" -}}
 vault.hashicorp.com/agent-inject-template-email: |
   {{`{{- with secret "secret/data/handshake/development/email-service" -}}`}}
     {{`{{ range $key, $value := .Data.data }}`}}
@@ -300,7 +312,7 @@ vault.hashicorp.com/agent-inject-template-email: |
   {{`{{- end }}`}}
 {{- end }}
 
-{{- define "handshake.frontend.vault.autoInject.template" -}}
+{{- define "handshake.frontend.vault.agentInject.template" -}}
 vault.hashicorp.com/agent-inject-template-frontend: |
   {{`{{- with secret "secret/data/handshake/development/frontend" -}}`}}
     {{`{{ range $key, $value := .Data.data }}`}}
@@ -309,37 +321,100 @@ vault.hashicorp.com/agent-inject-template-frontend: |
   {{`{{- end }}`}}
 {{- end }}
 
+{{- define "handshake.auth.db.vault.agentInject.template" -}}
+vault.hashicorp.com/agent-inject-template-auth-db: |
+  {{`{{- with secret "secret/data/handshake/development/databases/auth-service-db" -}}`}}
+    {{`{{ range $key, $value := .Data.data }}`}}
+      export {{`{{ $key }}="{{ $value }}"`}}
+    {{`{{ end }}`}}
+  {{`{{- end }}`}}
+{{- end }}
+
+{{- define "handshake.product.db.vault.agentInject.template" -}}
+vault.hashicorp.com/agent-inject-template-product-db: |
+  {{`{{- with secret "secret/data/handshake/development/databases/product-service-db" -}}`}}
+    {{`{{ range $key, $value := .Data.data }}`}}
+      export {{`{{ $key }}="{{ $value }}"`}}
+    {{`{{ end }}`}}
+  {{`{{- end }}`}}
+{{- end }}
+
+{{- define "handshake.order.db.vault.agentInject.template" -}}
+vault.hashicorp.com/agent-inject-template-order-db: |
+  {{`{{- with secret "secret/data/handshake/development/databases/order-service-db" -}}`}}
+    {{`{{ range $key, $value := .Data.data }}`}}
+      export {{`{{ $key }}="{{ $value }}"`}}
+    {{`{{ end }}`}}
+  {{`{{- end }}`}}
+{{- end }}
+
+{{- define "handshake.auth.db.vault.agentInject.command" -}}
+vault.hashicorp.com/agent-inject-command-auth-db: "source /vault/secrets/auth-db"
+{{- end }}
+
+{{- define "handshake.product.db.vault.agentInject.command" -}}
+vault.hashicorp.com/agent-inject-command-product-db: "source /vault/secrets/product-db"
+{{- end }}
+
+{{- define "handshake.order.db.vault.agentInject.command" -}}
+vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-db"
+{{- end }}
+
 {{- define "handshake.auth.vault.annotations" -}}
 {{ template "handshake.vault.role" . }}
-{{ template "handshake.vault.autoInject" . }}
-{{ template "handshake.auth.vault.autoInject.secret" . }}
-{{ template "handshake.auth.vault.autoInject.template" . }}
+{{ template "handshake.vault.agentInject" . }}
+{{ template "handshake.auth.vault.agentInject.secret" . }}
+{{ template "handshake.auth.vault.agentInject.template" . }}
 {{- end }}
 
 {{- define "handshake.product.vault.annotations" -}}
 {{ template "handshake.vault.role" . }}
-{{ template "handshake.vault.autoInject" . }}
-{{ template "handshake.product.vault.autoInject.secret" . }}
-{{ template "handshake.product.vault.autoInject.template" . }}
+{{ template "handshake.vault.agentInject" . }}
+{{ template "handshake.product.vault.agentInject.secret" . }}
+{{ template "handshake.product.vault.agentInject.template" . }}
 {{- end }}
 
 {{- define "handshake.order.vault.annotations" -}}
 {{ template "handshake.vault.role" . }}
-{{ template "handshake.vault.autoInject" . }}
-{{ template "handshake.order.vault.autoInject.secret" . }}
-{{ template "handshake.order.vault.autoInject.template" . }}
+{{ template "handshake.vault.agentInject" . }}
+{{ template "handshake.order.vault.agentInject.secret" . }}
+{{ template "handshake.order.vault.agentInject.template" . }}
 {{- end }}
 
 {{- define "handshake.email.vault.annotations" -}}
 {{ template "handshake.vault.role" . }}
-{{ template "handshake.vault.autoInject" . }}
-{{ template "handshake.email.vault.autoInject.secret" . }}
-{{ template "handshake.email.vault.autoInject.template" . }}
+{{ template "handshake.vault.agentInject" . }}
+{{ template "handshake.email.vault.agentInject.secret" . }}
+{{ template "handshake.email.vault.agentInject.template" . }}
 {{- end }}
 
 {{- define "handshake.frontend.vault.annotations" -}}
 {{ template "handshake.vault.role" . }}
-{{ template "handshake.vault.autoInject" . }}
-{{ template "handshake.frontend.vault.autoInject.secret" . }}
-{{ template "handshake.frontend.vault.autoInject.template" . }}
+{{ template "handshake.vault.agentInject" . }}
+{{ template "handshake.frontend.vault.agentInject.secret" . }}
+{{ template "handshake.frontend.vault.agentInject.template" . }}
+{{- end }}
+
+{{- define "handshake.auth.db.vault.annotations" -}}
+{{ template "handshake.vault.role" . }}
+{{ template "handshake.vault.agentInject" . }}
+{{ template "handshake.auth.db.vault.agentInject.secret" . }}
+{{ template "handshake.auth.db.vault.agentInject.template" . }}
+{{ template "handshake.auth.db.vault.agentInject.command" . }}
+{{- end }}
+
+{{- define "handshake.product.db.vault.annotations" -}}
+{{ template "handshake.vault.role" . }}
+{{ template "handshake.vault.agentInject" . }}
+{{ template "handshake.product.db.vault.agentInject.secret" . }}
+{{ template "handshake.product.db.vault.agentInject.template" . }}
+{{ template "handshake.product.db.vault.agentInject.command" . }}
+{{- end }}
+
+{{- define "handshake.order.db.vault.annotations" -}}
+{{ template "handshake.vault.role" . }}
+{{ template "handshake.vault.agentInject" . }}
+{{ template "handshake.order.db.vault.agentInject.secret" . }}
+{{ template "handshake.order.db.vault.agentInject.template" . }}
+{{ template "handshake.order.db.vault.agentInject.command" . }}
 {{- end }}
