@@ -12,15 +12,14 @@ spec:
   template:
     metadata:
       labels: {{ include "handshake.auth.db.labels" . | nindent 8 }}
+      annotations: {{ include "handshake.auth.db.vault.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ .Release.Namespace | quote }}
       containers:
-        - name: auth-service
+        - name: auth-service-db
           image: {{ .Values.authService.database.image.repository }}:{{ .Values.authService.database.image.tag }}
           ports:
             - containerPort: {{ include "handshake.auth.db.port" . }}
-          envFrom:
-            - secretRef:
-                name: {{ include "handshake.auth.db.secretName" . }}
           livenessProbe:
             tcpSocket:
               port: {{ include "handshake.auth.db.port" . }}
