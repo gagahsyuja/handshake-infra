@@ -23,7 +23,7 @@ spec:
           args:
             - |
               source /vault/secrets/product
-              exec handshake-product
+              exec handshake_product
           livenessProbe:
             httpGet:
               path: /live

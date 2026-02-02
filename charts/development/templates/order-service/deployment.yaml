@@ -23,7 +23,7 @@ spec:
           args:
             - |
               source /vault/secrets/order
-              exec handshake-order
+              exec handshake_order
           livenessProbe:
             httpGet:
               path: /live

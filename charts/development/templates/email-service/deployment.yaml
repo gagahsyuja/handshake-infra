@@ -23,7 +23,7 @@ spec:
           args:
             - |
               source /vault/secrets/email
-              exec handshake-email
+              exec handshake_email
           livenessProbe:
             httpGet:
               path: /live
