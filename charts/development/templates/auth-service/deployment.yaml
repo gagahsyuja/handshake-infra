@@ -11,16 +11,7 @@ spec:
   template:
     metadata:
       labels: {{ include "handshake.auth.labels" . | nindent 8 }}
-      annotations:
-        vault.hashicorp.com/role: {{ .Release.Namespace | quote }}
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/agent-inject-secret-auth: "secret/data/handshake/development/auth-service"
-        vault.hashicorp.com/agent-inject-template-auth: |
-          {{`{{- with secret "secret/data/handshake/development/auth-service" -}}`}}
-            {{`{{ range $key, $value := .Data.data }}`}}
-              export {{`{{ $key }}="{{ $value }}"`}}
-            {{`{{ end }}`}}
-          {{`{{- end }}`}}
+      annotations: {{ include "handshake.auth.vault.annotations" . | nindent 8 }}
     spec:
       serviceAccountName: {{ .Release.Namespace | quote }}
       containers:
@@ -33,9 +24,6 @@ spec:
             - |
               source /vault/secrets/auth
               exec handshake_auth
-          # envFrom:
-          #   - secretRef:
-          #       name: {{ .Values.authService.secretName }}
           livenessProbe:
             httpGet:
               path: /live
