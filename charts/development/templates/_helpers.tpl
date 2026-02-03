@@ -418,3 +418,43 @@ vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-
 {{ template "handshake.order.db.vault.agentInject.template" . }}
 {{ template "handshake.order.db.vault.agentInject.command" . }}
 {{- end }}
+
+{{- define "handshake.auth.resources" -}}
+requests:
+  cpu: {{ .Values.authService.requests.cpu | default "100m" }}
+  memory: {{ .Values.authService.requests.memory | default "64Mi" }}
+limits:
+  memory: {{ .Values.authService.limits.memory | default "64Mi" }}
+{{- end }}
+
+{{- define "handshake.product.resources" -}}
+requests:
+  cpu: {{ .Values.productService.requests.cpu | default "100m" }}
+  memory: {{ .Values.productService.requests.memory | default "64Mi" }}
+limits:
+  memory: {{ .Values.productService.limits.memory | default "64Mi" }}
+{{- end }}
+
+{{- define "handshake.order.resources" -}}
+requests:
+  cpu: {{ .Values.orderService.requests.cpu | default "100m" }}
+  memory: {{ .Values.orderService.requests.memory | default "64Mi" }}
+limits:
+  memory: {{ .Values.orderService.limits.memory | default "64Mi" }}
+{{- end }}
+
+{{- define "handshake.email.resources" -}}
+requests:
+  cpu: {{ .Values.emailService.requests.cpu | default "100m" }}
+  memory: {{ .Values.emailService.requests.memory | default "64Mi" }}
+limits:
+  memory: {{ .Values.emailService.limits.memory | default "64Mi" }}
+{{- end }}
+
+{{- define "handshake.frontend.resources" -}}
+requests:
+  cpu: {{ .Values.frontend.requests.cpu | default "100m" }}
+  memory: {{ .Values.frontend.requests.memory | default "128Mi" }}
+limits:
+  memory: {{ .Values.frontend.limits.memory | default "128Mi" }}
+{{- end }}
