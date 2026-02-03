@@ -36,3 +36,4 @@ spec:
               port: {{ template "handshake.order.port" . }}
             initialDelaySeconds: 5
             periodSeconds: 5
+          resources: {{ include "handshake.order.resources" . | nindent 12 }}
