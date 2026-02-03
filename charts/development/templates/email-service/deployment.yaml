@@ -36,3 +36,4 @@ spec:
               port: {{ template "handshake.email.port" . }}
             initialDelaySeconds: 5
             periodSeconds: 5
+          resources: {{ include "handshake.email.resources" . | nindent 12 }}
