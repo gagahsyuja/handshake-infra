@@ -4,9 +4,8 @@ metadata:
   name: {{ template "handshake.email" . }}
   labels: {{ include "handshake.email.labels" . | nindent 4 }}
   namespace: {{ .Release.Namespace | quote }}
-  annotations: {{ include "handshake.letsencrypt.annotations" . | nindent 4 }}
 spec:
-  ingressClassName: nginx
+  ingressClassName: tailscale
   rules:
     - host: {{ template "handshake.email.host" . }}
       http:
@@ -21,4 +20,3 @@ spec:
   tls:
     - hosts:
         - {{ template "handshake.email.host" . }}
-      secretName: {{ template "handshake.email" . }}-tls
