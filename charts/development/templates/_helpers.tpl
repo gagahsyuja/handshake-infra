@@ -360,11 +360,23 @@ vault.hashicorp.com/agent-inject-command-product-db: "source /vault/secrets/prod
 vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-db"
 {{- end }}
 
+{{- define "handshake.vault.cpu" -}}
+vault.hashicorp.com/agent-limits-cpu: ""
+vault.hashicorp.com/agent-requests-cpu: ""
+{{- end }}
+
+{{- define "handshake.vault.mem" -}}
+vault.hashicorp.com/agent-limits-mem: "64Mi"
+vault.hashicorp.com/agent-requests-mem: "32Mi"
+{{- end }}
+
 {{- define "handshake.auth.vault.annotations" -}}
 {{ template "handshake.vault.role" . }}
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.auth.vault.agentInject.secret" . }}
 {{ template "handshake.auth.vault.agentInject.template" . }}
+{{ template "handshake.vault.mem" . }}
+{{ template "handshake.vault.cpu" . }}
 {{- end }}
 
 {{- define "handshake.product.vault.annotations" -}}
@@ -372,6 +384,8 @@ vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.product.vault.agentInject.secret" . }}
 {{ template "handshake.product.vault.agentInject.template" . }}
+{{ template "handshake.vault.mem" . }}
+{{ template "handshake.vault.cpu" . }}
 {{- end }}
 
 {{- define "handshake.order.vault.annotations" -}}
@@ -379,6 +393,8 @@ vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.order.vault.agentInject.secret" . }}
 {{ template "handshake.order.vault.agentInject.template" . }}
+{{ template "handshake.vault.mem" . }}
+{{ template "handshake.vault.cpu" . }}
 {{- end }}
 
 {{- define "handshake.email.vault.annotations" -}}
@@ -386,6 +402,8 @@ vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.email.vault.agentInject.secret" . }}
 {{ template "handshake.email.vault.agentInject.template" . }}
+{{ template "handshake.vault.mem" . }}
+{{ template "handshake.vault.cpu" . }}
 {{- end }}
 
 {{- define "handshake.frontend.vault.annotations" -}}
@@ -393,6 +411,8 @@ vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.frontend.vault.agentInject.secret" . }}
 {{ template "handshake.frontend.vault.agentInject.template" . }}
+{{ template "handshake.vault.mem" . }}
+{{ template "handshake.vault.cpu" . }}
 {{- end }}
 
 {{- define "handshake.auth.db.vault.annotations" -}}
@@ -401,6 +421,8 @@ vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-
 {{ template "handshake.auth.db.vault.agentInject.secret" . }}
 {{ template "handshake.auth.db.vault.agentInject.template" . }}
 {{ template "handshake.auth.db.vault.agentInject.command" . }}
+{{ template "handshake.vault.mem" . }}
+{{ template "handshake.vault.cpu" . }}
 {{- end }}
 
 {{- define "handshake.product.db.vault.annotations" -}}
@@ -409,6 +431,8 @@ vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-
 {{ template "handshake.product.db.vault.agentInject.secret" . }}
 {{ template "handshake.product.db.vault.agentInject.template" . }}
 {{ template "handshake.product.db.vault.agentInject.command" . }}
+{{ template "handshake.vault.mem" . }}
+{{ template "handshake.vault.cpu" . }}
 {{- end }}
 
 {{- define "handshake.order.db.vault.annotations" -}}
@@ -417,6 +441,8 @@ vault.hashicorp.com/agent-inject-command-order-db: "source /vault/secrets/order-
 {{ template "handshake.order.db.vault.agentInject.secret" . }}
 {{ template "handshake.order.db.vault.agentInject.template" . }}
 {{ template "handshake.order.db.vault.agentInject.command" . }}
+{{ template "handshake.vault.mem" . }}
+{{ template "handshake.vault.cpu" . }}
 {{- end }}
 
 {{- define "handshake.auth.resources" -}}
