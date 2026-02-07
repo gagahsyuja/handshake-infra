@@ -530,3 +530,22 @@ requests:
 limits:
   memory: {{ .Values.frontend.limits.memory | default "128Mi" }}
 {{- end }}
+
+{{- define "handshake.topologySpreadConstraints" -}}
+- maxSkew: 1
+  topologyKey: "kubernetes.io/hostname"
+  whenUnsatisfiable: "ScheduleAnyway"
+  labelSelector:
+    matchLabels:
+      app: {{ template "handshake.name" . }}
+{{- end }}
+
+{{- define "handshake.db.topologySpreadConstraints" -}}
+- maxSkew: 1
+  topologyKey: "kubernetes.io/hostname"
+  whenUnsatisfiable: "ScheduleAnyway"
+  labelSelector:
+    matchLabels:
+        app: {{ template "handshake.name" . }}
+        role: db
+{{- end }}
