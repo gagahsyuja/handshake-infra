@@ -152,6 +152,7 @@ role: frontend
 
 {{- define "handshake.letsencrypt.annotations" -}}
 cert-manager.io/cluster-issuer: "letsencrypt-nginx-cert"
+nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 {{- end }}
 
 {{- define "handshake.auth.db" -}}
