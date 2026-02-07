@@ -14,6 +14,7 @@ spec:
       annotations: {{ include "handshake.auth.vault.annotations" . | nindent 8 }}
     spec:
       serviceAccountName: {{ .Release.Namespace | quote }}
+      topologySpreadConstraints: {{ include "handshake.topologySpreadConstraints" . | nindent 8 }}
       containers:
         - name: auth-service
           image: {{ .Values.authService.image.repository }}:{{ .Values.authService.image.tag }}

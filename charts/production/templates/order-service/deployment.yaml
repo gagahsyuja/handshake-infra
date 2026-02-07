@@ -14,6 +14,7 @@ spec:
       annotations: {{ include "handshake.order.vault.annotations" . | nindent 8 }}
     spec:
       serviceAccountName: {{ .Release.Namespace | quote }}
+      topologySpreadConstraints: {{ include "handshake.topologySpreadConstraints" . | nindent 8 }}
       containers:
         - name: order-service
           image: {{ .Values.orderService.image.repository }}:{{ .Values.orderService.image.tag }}
