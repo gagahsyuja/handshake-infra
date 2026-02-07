@@ -19,11 +19,6 @@ spec:
           image: {{ .Values.orderService.image.repository }}:{{ .Values.orderService.image.tag }}
           ports:
             - containerPort: {{ template "handshake.order.port" . }}
-          command: [ "bash", "-c" ]
-          args:
-            - |
-              source /vault/secrets/order
-              exec handshake_order
           livenessProbe:
             httpGet:
               path: /live

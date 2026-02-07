@@ -19,11 +19,6 @@ spec:
           image: {{ .Values.productService.image.repository }}:{{ .Values.productService.image.tag }}
           ports:
             - containerPort: {{ template "handshake.product.port" . }}
-          command: [ "bash", "-c" ]
-          args:
-            - |
-              source /vault/secrets/product
-              exec handshake_product
           livenessProbe:
             httpGet:
               path: /live
