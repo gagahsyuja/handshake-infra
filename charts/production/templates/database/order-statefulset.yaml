@@ -28,7 +28,7 @@ spec:
                 sleep 2
               done
               source /vault/secrets/order-db
-              exec docker_entrypoint.sh postgres
+              exec /usr/local/bin/docker-entrypoint.sh postgres
           livenessProbe:
             tcpSocket:
               port: {{ include "handshake.order.db.port" . }}
