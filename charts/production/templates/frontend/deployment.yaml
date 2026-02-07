@@ -41,29 +41,3 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           resources: {{ include "handshake.frontend.resources" . | nindent 12 }}
-        - name: ts-sidecar
-          image: ghcr.io/tailscale/tailscale:latest
-          securityContext:
-            privileged: true
-          env:
-            - name: TS_HOSTNAME
-              value: {{ include "handshake.frontend" . | quote }}
-            - name: TS_KUBE_SECRET
-              value: {{ printf "%s-tailscale" (include "handshake.frontend" . ) }}
-            - name: TS_USERSPACE
-              value: "false"
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: POD_UID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.uid
-            - name: TS_ACCEPT_DNS
-              value: "true"
-            - name: TS_AUTHKEY
-              valueFrom:
-                secretKeyRef:
-                  name: tailscale-auth-key
-                  key: AUTH_KEY
