@@ -5,7 +5,7 @@ metadata:
   labels: {{ include "handshake.order.db.labels" . | nindent 4 }}
   namespace: {{ .Release.Namespace | quote }}
 spec:
-  serviceName: postgres
+  serviceName: {{ template "handshake.order.db" . }}
   replicas: {{ .Values.orderService.database.replicas }}
   selector:
     matchLabels: {{ include "handshake.order.db.labels" . | nindent 6 }}

@@ -5,7 +5,7 @@ metadata:
   labels: {{ include "handshake.auth.db.labels" . | nindent 4 }}
   namespace: {{ .Release.Namespace | quote }}
 spec:
-  serviceName: postgres
+  serviceName: {{ template "handshake.auth.db" . }}
   replicas: {{ .Values.authService.database.replicas }}
   selector:
     matchLabels: {{ include "handshake.auth.db.labels" . | nindent 6 }}
