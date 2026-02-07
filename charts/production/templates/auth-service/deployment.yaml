@@ -26,7 +26,7 @@ spec:
                 echo "Waiting for Vault secrets..."
                 sleep 2
               done
-              source /vault/secrets/auth-db
+              source /vault/secrets/auth
               exec handshake_auth
           livenessProbe:
             httpGet:
