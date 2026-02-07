@@ -1,20 +1,20 @@
 authService:
-  host: "handshake-auth"
+  host: "handshake-auth.sofine.my.id"
   image:
     tag: 44b823d
 productService:
-  host: "handshake-product"
+  host: "handshake-product.sofine.my.id"
   image:
     tag: e28b09f
 orderService:
-  host: "handshake-order"
+  host: "handshake-order.sofine.my.id"
   image:
     tag: e28b09f
 emailService:
-  host: "handshake-email"
+  host: "handshake-email.sofine.my.id"
   image:
     tag: 42a2a5b
 frontend:
-  host: "handshake"
+  host: "handshake.sofine.my.id"
   image:
     tag: 3531a83
