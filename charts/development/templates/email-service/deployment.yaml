@@ -14,6 +14,7 @@ spec:
       annotations: {{ include "handshake.email.vault.annotations" . | nindent 8 }}
     spec:
       serviceAccountName: {{ .Release.Namespace | quote }}
+      topologySpreadConstraints: {{ include "handshake.topologySpreadConstraints" . | nindent 8 }}
       containers:
         - name: email-service
           image: {{ .Values.emailService.image.repository }}:{{ .Values.emailService.image.tag }}

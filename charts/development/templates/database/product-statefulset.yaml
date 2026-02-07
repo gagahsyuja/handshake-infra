@@ -15,6 +15,7 @@ spec:
       annotations: {{ include "handshake.product.db.vault.annotations" . | nindent 8 }}
     spec:
       serviceAccountName: {{ .Release.Namespace | quote }}
+      topologySpreadConstraints: {{ include "handshake.db.topologySpreadConstraints" . | nindent 8 }}
       containers:
         - name: product-service
           image: {{ .Values.productService.database.image.repository }}:{{ .Values.productService.database.image.tag }}
