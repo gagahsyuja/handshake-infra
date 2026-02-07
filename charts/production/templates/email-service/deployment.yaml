@@ -27,7 +27,7 @@ spec:
                 sleep 2
               done
               source /vault/secrets/email
-              exec handshake_auth
+              exec handshake_email
           livenessProbe:
             httpGet:
               path: /live
