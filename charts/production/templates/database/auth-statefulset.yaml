@@ -20,6 +20,15 @@ spec:
           image: {{ .Values.authService.database.image.repository }}:{{ .Values.authService.database.image.tag }}
           ports:
             - containerPort: {{ include "handshake.auth.db.port" . }}
+          command: [ "bash", "-c" ]
+          args:
+            - |
+              while [ ! -f /vault/secrets/auth-db ]; do
+                echo "Waiting for Vault secrets..."
+                sleep 2
+              done
+              source /vault/secrets/auth-db
+              exec docker_entrypoint.sh postgres
           livenessProbe:
             tcpSocket:
               port: {{ include "handshake.auth.db.port" . }}
