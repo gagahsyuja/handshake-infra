@@ -339,7 +339,7 @@ vault.hashicorp.com/agent-inject-template-frontend: |
 
 {{- define "handshake.auth.db.vault.agentInject.template" -}}
 vault.hashicorp.com/agent-inject-template-auth-db: |
-  {{ printf "{{- with secret \"%s/auth-service-db\" -}}" (include "handshake.vault.pathPrefix" .) }}
+  {{ printf "{{- with secret \"%s/databases/auth-service-db\" -}}" (include "handshake.vault.pathPrefix" .) }}
     {{`{{ range $key, $value := .Data.data }}`}}
       export {{`{{ $key }}="{{ $value }}"`}}
     {{`{{ end }}`}}
@@ -348,7 +348,7 @@ vault.hashicorp.com/agent-inject-template-auth-db: |
 
 {{- define "handshake.product.db.vault.agentInject.template" -}}
 vault.hashicorp.com/agent-inject-template-product-db: |
-  {{ printf "{{- with secret \"%s/product-service-db\" -}}" (include "handshake.vault.pathPrefix" .) }}
+  {{ printf "{{- with secret \"%s/databases/product-service-db\" -}}" (include "handshake.vault.pathPrefix" .) }}
     {{`{{ range $key, $value := .Data.data }}`}}
       export {{`{{ $key }}="{{ $value }}"`}}
     {{`{{ end }}`}}
@@ -357,7 +357,7 @@ vault.hashicorp.com/agent-inject-template-product-db: |
 
 {{- define "handshake.order.db.vault.agentInject.template" -}}
 vault.hashicorp.com/agent-inject-template-order-db: |
-  {{ printf "{{- with secret \"%s/order-service-db\" -}}" (include "handshake.vault.pathPrefix" .) }}
+  {{ printf "{{- with secret \"%s/databases/order-service-db\" -}}" (include "handshake.vault.pathPrefix" .) }}
     {{`{{ range $key, $value := .Data.data }}`}}
       export {{`{{ $key }}="{{ $value }}"`}}
     {{`{{ end }}`}}
