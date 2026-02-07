@@ -19,6 +19,15 @@ spec:
           image: {{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}
           ports:
             - containerPort: {{ template "handshake.frontend.port" . }}
+          command: [ "bash", "-c" ]
+          args:
+            - |
+              while [ ! -f /vault/secrets/frontend ]; do
+                echo "Waiting for Vault secrets..."
+                sleep 2
+              done
+              source /vault/secrets/frontend
+              exec node /app/dist/server/entry.mjs
           livenessProbe:
             httpGet:
               path: /live

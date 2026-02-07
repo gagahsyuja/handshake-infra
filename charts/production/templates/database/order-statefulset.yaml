@@ -20,6 +20,15 @@ spec:
           image: {{ .Values.orderService.database.image.repository }}:{{ .Values.orderService.database.image.tag }}
           ports:
             - containerPort: {{ include "handshake.order.db.port" . }}
+          command: [ "bash", "-c" ]
+          args:
+            - |
+              while [ ! -f /vault/secrets/order-db ]; do
+                echo "Waiting for Vault secrets..."
+                sleep 2
+              done
+              source /vault/secrets/order-db
+              exec docker_entrypoint.sh postgres
           livenessProbe:
             tcpSocket:
               port: {{ include "handshake.order.db.port" . }}

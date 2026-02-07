@@ -244,6 +244,10 @@ vault.hashicorp.com/role: {{ .Release.Namespace | quote }}
 vault.hashicorp.com/agent-inject: "true"
 {{- end }}
 
+{{- define "handshake.vault.agentPrePopulateOnly" -}}
+vault.hashicorp.com/agent-pre-populate-only: "true"
+{{- end }}
+
 {{- define "handshake.vault.pathPrefix" -}}
 {{- if contains "development" .Release.Namespace -}}
 secret/data/handshake/development
@@ -411,7 +415,7 @@ vault.hashicorp.com/agent-requests-mem: "32Mi"
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.auth.vault.agentInject.secret" . }}
 {{ template "handshake.auth.vault.agentInject.template" . }}
-{{ template "handshake.auth.vault.agentInject.command" . }}
+{{ template "handshake.vault.agentPrePopulateOnly" . }}
 {{ template "handshake.vault.mem" . }}
 {{ template "handshake.vault.cpu" . }}
 {{- end }}
@@ -421,7 +425,7 @@ vault.hashicorp.com/agent-requests-mem: "32Mi"
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.product.vault.agentInject.secret" . }}
 {{ template "handshake.product.vault.agentInject.template" . }}
-{{ template "handshake.product.vault.agentInject.command" . }}
+{{ template "handshake.vault.agentPrePopulateOnly" . }}
 {{ template "handshake.vault.mem" . }}
 {{ template "handshake.vault.cpu" . }}
 {{- end }}
@@ -431,7 +435,7 @@ vault.hashicorp.com/agent-requests-mem: "32Mi"
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.order.vault.agentInject.secret" . }}
 {{ template "handshake.order.vault.agentInject.template" . }}
-{{ template "handshake.order.vault.agentInject.command" . }}
+{{ template "handshake.vault.agentPrePopulateOnly" . }}
 {{ template "handshake.vault.mem" . }}
 {{ template "handshake.vault.cpu" . }}
 {{- end }}
@@ -441,7 +445,7 @@ vault.hashicorp.com/agent-requests-mem: "32Mi"
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.email.vault.agentInject.secret" . }}
 {{ template "handshake.email.vault.agentInject.template" . }}
-{{ template "handshake.email.vault.agentInject.command" . }}
+{{ template "handshake.vault.agentPrePopulateOnly" . }}
 {{ template "handshake.vault.mem" . }}
 {{ template "handshake.vault.cpu" . }}
 {{- end }}
@@ -451,7 +455,7 @@ vault.hashicorp.com/agent-requests-mem: "32Mi"
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.frontend.vault.agentInject.secret" . }}
 {{ template "handshake.frontend.vault.agentInject.template" . }}
-{{ template "handshake.frontend.vault.agentInject.command" . }}
+{{ template "handshake.vault.agentPrePopulateOnly" . }}
 {{ template "handshake.vault.mem" . }}
 {{ template "handshake.vault.cpu" . }}
 {{- end }}
@@ -461,7 +465,7 @@ vault.hashicorp.com/agent-requests-mem: "32Mi"
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.auth.db.vault.agentInject.secret" . }}
 {{ template "handshake.auth.db.vault.agentInject.template" . }}
-{{ template "handshake.auth.db.vault.agentInject.command" . }}
+{{ template "handshake.vault.agentPrePopulateOnly" . }}
 {{ template "handshake.vault.mem" . }}
 {{ template "handshake.vault.cpu" . }}
 {{- end }}
@@ -471,7 +475,7 @@ vault.hashicorp.com/agent-requests-mem: "32Mi"
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.product.db.vault.agentInject.secret" . }}
 {{ template "handshake.product.db.vault.agentInject.template" . }}
-{{ template "handshake.product.db.vault.agentInject.command" . }}
+{{ template "handshake.vault.agentPrePopulateOnly" . }}
 {{ template "handshake.vault.mem" . }}
 {{ template "handshake.vault.cpu" . }}
 {{- end }}
@@ -481,7 +485,7 @@ vault.hashicorp.com/agent-requests-mem: "32Mi"
 {{ template "handshake.vault.agentInject" . }}
 {{ template "handshake.order.db.vault.agentInject.secret" . }}
 {{ template "handshake.order.db.vault.agentInject.template" . }}
-{{ template "handshake.order.db.vault.agentInject.command" . }}
+{{ template "handshake.vault.agentPrePopulateOnly" . }}
 {{ template "handshake.vault.mem" . }}
 {{ template "handshake.vault.cpu" . }}
 {{- end }}

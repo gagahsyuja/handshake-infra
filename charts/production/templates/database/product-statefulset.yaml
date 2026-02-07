@@ -20,6 +20,15 @@ spec:
           image: {{ .Values.productService.database.image.repository }}:{{ .Values.productService.database.image.tag }}
           ports:
             - containerPort: {{ include "handshake.product.db.port" . }}
+          command: [ "bash", "-c" ]
+          args:
+            - |
+              while [ ! -f /vault/secrets/product-db ]; do
+                echo "Waiting for Vault secrets..."
+                sleep 2
+              done
+              source /vault/secrets/product-db
+              exec docker_entrypoint.sh postgres
           livenessProbe:
             tcpSocket:
               port: {{ include "handshake.product.db.port" . }}

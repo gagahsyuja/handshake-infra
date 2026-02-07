@@ -19,6 +19,15 @@ spec:
           image: {{ .Values.emailService.image.repository }}:{{ .Values.emailService.image.tag }}
           ports:
             - containerPort: {{ template "handshake.email.port" . }}
+          command: [ "bash", "-c" ]
+          args:
+            - |
+              while [ ! -f /vault/secrets/email ]; do
+                echo "Waiting for Vault secrets..."
+                sleep 2
+              done
+              source /vault/secrets/email
+              exec handshake_auth
           livenessProbe:
             httpGet:
               path: /live
