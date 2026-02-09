@@ -15,6 +15,7 @@ spec:
     spec:
       serviceAccountName: {{ .Release.Namespace | quote }}
       topologySpreadConstraints: {{ include "handshake.topologySpreadConstraints" . | nindent 8 }}
+      securityContext: {{ include "handshake.securityContext.pod" . | nindent 8 }}
       containers:
         - name: auth-service
           image: {{ .Values.authService.image.repository }}:{{ .Values.authService.image.tag }}
@@ -29,6 +30,7 @@ spec:
               done
               source /vault/secrets/auth
               exec handshake_auth
+          securityContext: {{ include "handshake.securityContext.container" . | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /live

@@ -16,6 +16,7 @@ spec:
     spec:
       serviceAccountName: {{ .Release.Namespace | quote }}
       topologySpreadConstraints: {{ include "handshake.db.topologySpreadConstraints" . | nindent 8 }}
+      securityContext: {{ include "handshake.securityContext.pod" . | nindent 8 }}
       containers:
         - name: product-service
           image: {{ .Values.productService.database.image.repository }}:{{ .Values.productService.database.image.tag }}
@@ -30,6 +31,7 @@ spec:
               done
               source /vault/secrets/product-db
               exec /usr/local/bin/docker-entrypoint.sh postgres
+          securityContext: {{ include "handshake.securityContext.container" . | nindent 12 }}
           livenessProbe:
             tcpSocket:
               port: {{ include "handshake.product.db.port" . }}
