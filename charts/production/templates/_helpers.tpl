@@ -549,3 +549,17 @@ limits:
         app: {{ template "handshake.name" . }}
         role: db
 {{- end }}
+
+{{- define "handshake.securityContext.pod" -}}
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 2000
+  fsGroupPolicy: "OnRootMismatch"
+{{- end }}
+
+{{- define "handshake.securityContext.container" -}}
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+{{- end }}
